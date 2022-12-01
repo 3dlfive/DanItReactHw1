@@ -3,7 +3,7 @@ import './modal.styles.scss';
 
 class Modal extends Component {
 	render() {
-		const {temperature, closeButton,header} = this.props;
+		const { closeButton,header,text,action} = this.props;
 		return (
 			<div className="modal-wrapper" onClick={closeButton}>
 				<div className="modal" onClick={e => e.stopPropagation()}>
@@ -18,14 +18,12 @@ class Modal extends Component {
 							<h4>{header}</h4>
 						</div>
 						<div className="modal-content">
-							<div className="input">
-								<input className="input-box" type="text" value={temperature}/>
-							</div>
+							<p className="modal-text">{text}</p>
+
 						</div>
 						<div className="modal-footer">
 							<div className="button-wrapper">
-								<button className="btn" type="button">OK</button>
-								<button className="btn" type="button" onClick={closeButton}>Cancel</button>
+								{action}
 							</div>
 						</div>
 					</div>

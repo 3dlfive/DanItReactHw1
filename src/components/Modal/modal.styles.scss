@@ -36,8 +36,9 @@
 	}
 
 	.modal-header {
+
 		margin-bottom: 24px;
-		font-size: 36px;
+		font-size: 22px;
 	}
 
 	h4 {
@@ -45,7 +46,9 @@
 	}
 
 	.modal-content {}
-
+	.modal-text {
+		font-size: 26px;
+	}
 	.modal-footer {
 		margin-top: 24px;
 	}
@@ -74,18 +77,4 @@
 	text-transform: uppercase;
 	color: #fff;
 	padding: 8px 32px;
-}
-
-.input {
-
-	.input-box {
-		height: 41px;
-		width: 100%;
-		border-radius: 4px;
-		border: 1px solid #c7cccf;
-		padding: 0 16px;
-		box-sizing: border-box;
-		line-height: normal;
-		font-size: 24px;
-	}
 }
