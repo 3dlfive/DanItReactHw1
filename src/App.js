@@ -5,6 +5,7 @@ import Modal from './components/Modal/modal.component'
 class App extends Component {
   state = {
     isModal:false,
+    isModal2:false,
     modalHeader:"Do you want deleate these text?",
     modalCloseButton:true,
     modalText:"Modal text one",
@@ -12,7 +13,7 @@ class App extends Component {
   }
 
   handleClickM1 = () =>{
-    console.log(this.props);
+    
     this.setState((prevstate)=>
      {return {
       ...prevstate,
@@ -26,7 +27,7 @@ class App extends Component {
       this.setState((prevstate)=>
       {return {
       ...prevstate,
-      isModal: !prevstate.isModal,
+      isModal2: !prevstate.isModal2,
       modalText: "Quaerat provident commodi consectetur veniam similique ad earum omnis ipsum saepe, voluptas, hic voluptates pariatur est explicabo fugiat, dolorum eligendi quam cupiditate excepturi mollitia maiores labore suscipit quas? Nulla, placeat.",
 
       }})
@@ -38,12 +39,18 @@ class App extends Component {
         ...prevstate,
         isModal: !prevstate.isModal,
       }})}
+    handleClickWindow2 = () =>{
+      this.setState((prevstate)=>
+      {return {
+        ...prevstate,
+        isModal2: !prevstate.isModal2,
+      }})}
 
   render(){
-    const {isModal,modalHeader,modalText}= this.state
+    const {isModal2,isModal,modalHeader,modalText}= this.state
 
     return (
-      <div>
+      <div className="main-page">
 
         <Button text="Open first modal" onClick={this.handleClickM1} BGcolor={{ backgroundColor: '#01FF70' }} />
 
@@ -54,6 +61,12 @@ class App extends Component {
         <button className="btn" type="button" onClick={this.handleClickWindow}>Cancel</button></>}
         text={modalText}
         closeButton={this.handleClickWindow}/>}
+
+        {isModal2 && <Modal header={modalHeader}
+        action={<><button className="btn2" type="button">OK</button>
+        <button className="btn2" type="button" onClick={this.handleClickWindow2}>Cancel</button></>}
+        text={modalText}
+        closeButton={this.handleClickWindow2}/>}
       </div>
     );
   }
