@@ -144,10 +144,10 @@ class App extends Component {
   }
 }
 App.propTypes = {
-  shopData:PropTypes.array,
-  isModal:PropTypes.bool,
-  currentCard:PropTypes.object,
-  cardinBucket:PropTypes.array,
-  favList:PropTypes.array
+  shopData:PropTypes.array.isRequired,
+  isModal:PropTypes.bool.isRequired,
+  currentCard:PropTypes.object.isRequired,
+  cardinBucket:PropTypes.array.isRequired,
+  favList:PropTypes.array.isRequired
 };
 export default App;

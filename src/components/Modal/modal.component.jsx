@@ -39,9 +39,9 @@ Modal.defaultProps = {
 
 }
 Modal.propTypes = {
-   closeButton:PropTypes.func,
+   closeButton:PropTypes.func.isRequired,
 	 header:PropTypes.string,
 	 text:PropTypes.string,
-	 action:PropTypes.node
+	 action:PropTypes.node.isRequired
 };
 export default Modal;

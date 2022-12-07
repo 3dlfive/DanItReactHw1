@@ -5,8 +5,8 @@ import { PropTypes } from 'prop-types';
 class Button extends Component {
 
   render(){
-    const {text,onClick,BGcolor} = this.props;
-    return (<button type="button"  onClick={onClick} style={BGcolor} className="button-15" >{text}</button>)
+    const {text,onClick} = this.props;
+    return (<button type="button"  onClick={onClick}  className="button-15" >{text}</button>)
 
   }
 }
@@ -16,8 +16,7 @@ Button.defaultProps = {
 }
 Button.propTypes = {
   text:PropTypes.string,
-  BGcolor:PropTypes.string,
-  onClick:PropTypes.func,
+  onClick:PropTypes.func.isRequired,
 };
 
 export default Button;
