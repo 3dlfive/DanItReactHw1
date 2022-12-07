@@ -1,5 +1,6 @@
 import {Component} from "react";
 import './modal.styles.scss';
+import { PropTypes } from 'prop-types';
 
 class Modal extends Component {
 	render() {
@@ -37,5 +38,10 @@ Modal.defaultProps = {
   text: "назва фільму",
 
 }
-
+Modal.propTypes = {
+   closeButton:PropTypes.func,
+	 header:PropTypes.string,
+	 text:PropTypes.string,
+	 action:PropTypes.node
+};
 export default Modal;

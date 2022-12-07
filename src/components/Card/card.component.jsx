@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './card.styles.scss';
+import { PropTypes } from 'prop-types';
 
 class Card extends Component {
 
@@ -28,4 +29,13 @@ class Card extends Component {
   }
 
 }
+
+Card.propTypes = {
+  name:PropTypes.string,
+  url:PropTypes.string,
+  price:PropTypes.string,
+  color:PropTypes.string,
+  buttons:PropTypes.node,
+  favComponent:PropTypes.node
+};
 export default Card;

@@ -1,11 +1,11 @@
 import React, {Component} from 'react'
 import './button.styles.scss'
-import Modal from '../Modal/modal.component'
+import { PropTypes } from 'prop-types';
 
 class Button extends Component {
 
   render(){
-    const {text,BGcolor,onClick,isModal,modalHeader} = this.props;
+    const {text,onClick,BGcolor} = this.props;
     return (<button type="button"  onClick={onClick} style={BGcolor} className="button-15" >{text}</button>)
 
   }
@@ -13,7 +13,11 @@ class Button extends Component {
 
 Button.defaultProps = {
   text: "Додати",
-
-
 }
+Button.propTypes = {
+  text:PropTypes.string,
+  BGcolor:PropTypes.string,
+  onClick:PropTypes.func,
+};
+
 export default Button;

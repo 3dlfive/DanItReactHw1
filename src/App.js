@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
+import { PropTypes } from 'prop-types';
+
 import Button from './components/Button/button.component'
 import Modal from './components/Modal/modal.component'
 import CardList from './components/CardList/card-list.component.jsx'
 import Card from './components/Card/card.component.jsx'
+
 import { ReactComponent as BacketSVG }from './SVG/backet.svg'
 import { ReactComponent as SunSVG }from './SVG/sun.svg'
 
@@ -131,7 +134,7 @@ class App extends Component {
                     this.handleClickWindow();
                   }}>OK</button>
                   <button className="btn" type="button" onClick={this.handleClickWindow}>Cancel</button></>}
-                  text={currentCard.name}
+                  text={`Імя картки ${currentCard.name}`}
                   closeButton={this.handleClickWindow}/>}
 
         </div>
@@ -158,8 +161,15 @@ class App extends Component {
     )
   }
 }
-
+App.propTypes = {
+  shopData:PropTypes.array,
+  isModal:PropTypes.bool,
+  currentCard:PropTypes.object,
+  cardinBucket:PropTypes.array,
+  favList:PropTypes.array
+};
 export default App;
+
 // 1. Підключення локал сторадж в стейт
 // 2. Отримати Ід, + функція зірочку
 // 3.
