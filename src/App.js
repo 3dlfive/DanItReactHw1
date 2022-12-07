@@ -1,75 +1,165 @@
 import React, { Component } from 'react';
 import Button from './components/Button/button.component'
 import Modal from './components/Modal/modal.component'
+import CardList from './components/CardList/card-list.component.jsx'
+import Card from './components/Card/card.component.jsx'
+import { ReactComponent as BacketSVG }from './SVG/backet.svg'
+import { ReactComponent as SunSVG }from './SVG/sun.svg'
+
 
 class App extends Component {
   state = {
+    shopData:[],
     isModal:false,
-    isModal2:false,
-    modalHeader:"Do you want deleate these text?",
-    modalCloseButton:true,
-    modalText:"Modal text one",
-    actionsButtons:'{<><button className="btn" type="button">OK</button><button className="btn" type="button" onClick={closeButton}>Cancel</button></>}'
+    currentCard:{},
+    cardinBucket:[],
+    favList:[]
+  }
+  handleClickWindow = () =>{
+
+
+
+  this.setState((prevstate)=>
+  {return {
+    ...prevstate,
+    isModal: !prevstate.isModal,
+  }})}
+  handlerCurrentCARD = (currentCard) => {
+		this.setState((prevState) => {
+			return {
+				...prevState,
+				currentCard: {...currentCard}
+			}
+		})
+	}
+
+  handlerToBucket = (id) =>{
+
+    this.setState((prevState) => {
+			return {
+				...prevState,
+				cardinBucket: [...this.state.cardinBucket,id]
+			}
+		},()=>{
+      localStorage.cardinBucket=this.state.cardinBucket;
+
+    })
+
+  }
+  handlerToFav = (id) =>{
+    if (!this.state.favList.includes(id.aritclId)) {
+      this.setState((prevState) => {
+  			return {
+  				...prevState,
+  				favList: [...this.state.favList,id.aritclId]
+  			}
+  		},()=>{
+        localStorage.FavList=this.state.favList;
+
+      })
+
+
+    }
+    else {
+      this.setState((prevState) => {
+        return {
+          ...prevState,
+          favList: this.state.favList.filter(el =>el!==id.aritclId)
+        }
+      },()=>{
+        localStorage.FavList=this.state.favList;
+
+      })
+
+    }
+
+
   }
 
-  handleClickM1 = () =>{
-    
-    this.setState((prevstate)=>
-     {return {
-      ...prevstate,
-      isModal: !prevstate.isModal,
-      modalText: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium optio, eaque rerum! Provident similique accusantium nemo autem. Veritatis obcaecati tenetur iure eius earum ut molestias architecto voluptate aliquam nihil, eveniet aliquid culpa officia aut! Impedit sit sunt quaerat, odit,tenetur error, harum nesciunt ipsum debitis quas aliquid.",
+  componentDidMount(){
+    if((localStorage.FavList)!== undefined && (localStorage.FavList).length>0)
+    {
 
-    }})}
-
-
-  handleClickM2 = () =>{
-      this.setState((prevstate)=>
-      {return {
-      ...prevstate,
-      isModal2: !prevstate.isModal2,
-      modalText: "Quaerat provident commodi consectetur veniam similique ad earum omnis ipsum saepe, voluptas, hic voluptates pariatur est explicabo fugiat, dolorum eligendi quam cupiditate excepturi mollitia maiores labore suscipit quas? Nulla, placeat.",
-
+      this.setState(prevState=>{
+        return {
+          ...prevState,
+          favList:localStorage.FavList.split(",")
       }})
-      }
+    }
 
-    handleClickWindow = () =>{
-      this.setState((prevstate)=>
-      {return {
-        ...prevstate,
-        isModal: !prevstate.isModal,
-      }})}
-    handleClickWindow2 = () =>{
-      this.setState((prevstate)=>
-      {return {
-        ...prevstate,
-        isModal2: !prevstate.isModal2,
-      }})}
+    if((localStorage.cardinBucket)!== undefined){
+      this.setState(prevState=>{
+        return {
+          ...prevState,
+          cardinBucket:localStorage.cardinBucket.split(",")
+      }})
+    }
+
+    fetch('./mydata.json',{
+      headers : {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+       }
+    })
+    .then(response=>response.json())
+    .then(myDB=>{
+
+      this.setState(prevState=>{return {
+        ...prevState,
+        shopData:myDB
+      }})
+    })
+  }
+
+
+
+
 
   render(){
-    const {isModal2,isModal,modalHeader,modalText}= this.state
+    const {shopData,isModal,currentCard,cardinBucket,favList}= this.state;
 
     return (
       <div className="main-page">
+        <h1>NFT card marketplace</h1>
+        <div className="counter-Wrapper">
+          <div>{<BacketSVG/>} = {cardinBucket.length}</div>
+          <div>{<SunSVG/>} = {favList.length}</div>
 
-        <Button text="Open first modal" onClick={this.handleClickM1} BGcolor={{ backgroundColor: '#01FF70' }} />
+          {isModal && <Modal header="Додати в корзину"
+                  action={<><button className="btn" type="button" onClick={()=>{
+                    this.handlerToBucket(currentCard.aritclId);
+                    this.handleClickWindow();
+                  }}>OK</button>
+                  <button className="btn" type="button" onClick={this.handleClickWindow}>Cancel</button></>}
+                  text={currentCard.name}
+                  closeButton={this.handleClickWindow}/>}
 
-        <Button text="Open second modal" onClick={this.handleClickM2} BGcolor={{ backgroundColor: '#F012BE' }} />
+        </div>
+        <CardList>
+        {shopData.map((el) => <Card
+          addToFav={()=>{
+            this.handlerToFav(el)
+          }}
+          favComponent={favList.includes(el.aritclId) ? <SunSVG className="star-yellow" onClick={()=>{
+            this.handlerToFav(el)
+          }}/> : <SunSVG className="star" onClick={()=>{
+            this.handlerToFav(el)
+          }}/>}
+          openModal={this.handleClickWindow}
+          key={el.aritclId}
+          itemData={el}
+          buttons={<><Button onClick={()=>{
+          this.handlerCurrentCARD(el);
+          this.handleClickWindow()
+        }}/></>} />)}
+        </CardList>
 
-        {isModal && <Modal header={modalHeader}
-        action={<><button className="btn" type="button">OK</button>
-        <button className="btn" type="button" onClick={this.handleClickWindow}>Cancel</button></>}
-        text={modalText}
-        closeButton={this.handleClickWindow}/>}
-
-        {isModal2 && <Modal header={modalHeader}
-        action={<><button className="btn2" type="button">OK</button>
-        <button className="btn2" type="button" onClick={this.handleClickWindow2}>Cancel</button></>}
-        text={modalText}
-        closeButton={this.handleClickWindow2}/>}
       </div>
-    );
+    )
   }
 }
 
 export default App;
+// 1. Підключення локал сторадж в стейт
+// 2. Отримати Ід, + функція зірочку
+// 3.

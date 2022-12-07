@@ -1,0 +1,92 @@
+[
+  {
+    "name": "Boyer Whitaker",
+    "url": "https://robohash.org/146%7D?set=set2&size=180x180",
+    "price": "$1,304.95",
+    "color": "green",
+    "aritclId": "638cca6ecd29e1f1eccec27a",
+    "isFaforite": false,
+    "inBucket": true
+  },
+  {
+    "name": "Tran Turner",
+    "url": "https://robohash.org/147%7D?set=set2&size=180x180",
+    "price": "$2,987.43",
+    "color": "green",
+    "aritclId": "638cca6efa63679d57eb0df1",
+    "isFaforite": true,
+    "inBucket": true
+  },
+  {
+    "name": "Boyle Preston",
+    "url": "https://robohash.org/148%7D?set=set2&size=180x180",
+    "price": "$3,590.83",
+    "color": "blue",
+    "aritclId": "638cca6e4a068e7834538ff6",
+    "isFaforite": false,
+    "inBucket": false
+  },
+  {
+    "name": "Ernestine Blair",
+    "url": "https://robohash.org/145%7D?set=set2&size=180x180",
+    "price": "$3,670.95",
+    "color": "blue",
+    "aritclId": "638cca6ea6a538a9bb465e48",
+    "isFaforite": true,
+    "inBucket": true
+  },
+  {
+    "name": "Sherry Manning",
+    "url": "https://robohash.org/144%7D?set=set2&size=180x180",
+    "price": "$3,807.22",
+    "color": "brown",
+    "aritclId": "638cca6eaab0f799fa06db56",
+    "isFaforite": true,
+    "inBucket": false
+  },
+  {
+    "name": "Hollie Young",
+    "url": "https://robohash.org/143%7D?set=set2&size=180x180",
+    "price": "$2,563.12",
+    "color": "brown",
+    "aritclId": "638cca6e989d3dd0768c4ebb",
+    "isFaforite": false,
+    "inBucket": false
+  },
+  {
+    "name": "Kinney Holt",
+    "url": "https://robohash.org/142%7D?set=set2&size=180x180",
+    "price": "$1,832.67",
+    "color": "blue",
+    "aritclId": "638cca6e24b8d43b3ebfa98a",
+    "isFaforite": false,
+    "inBucket": true
+  },
+  {
+    "name": "Colette Washington",
+    "url": "https://robohash.org/141%7D?set=set2&size=180x180",
+    "price": "$2,935.23",
+    "color": "brown",
+    "aritclId": "638cca6ef6d1756889416bc4",
+    "isFaforite": false,
+    "inBucket": true
+  },
+  {
+    "name": "Sargent Coffey",
+    "url": "https://robohash.org/140%7D?set=set2&size=180x180",
+    "price": "$1,764.38",
+    "color": "green",
+    "aritclId": "638cca6e3ebc697939c992ed",
+    "isFaforite": true,
+    "inBucket": false
+  },
+  {
+    "name": "Paulette Fisher",
+    "url": "https://robohash.org/139%7D?set=set2&size=180x180",
+    "price": "$2,060.98",
+    "color": "green",
+    "aritclId": "638cca6e6b05c565440b94cc",
+    "isFaforite": true,
+    "inBucket": false
+  }
+]

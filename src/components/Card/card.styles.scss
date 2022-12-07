@@ -1,0 +1,37 @@
+.card-container {
+  display: flex;
+  flex-direction: column;
+  background-color: #95dada;
+  border: 1px solid grey;
+  border-radius: 5px;
+  padding: 25px;
+  cursor: pointer;
+  -moz-osx-font-smoothing: grayscale;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  transition: transform 0.25s ease-out;
+  text-align: center;
+}
+.star{
+  position: absolute;
+  right: 16px;
+  top: 16px;
+  font-size:50px;
+  text-align: end;
+  color:grey;
+}
+.star-yellow{
+  position: absolute;
+  right: 16px;
+  top: 16px;
+  font-size:50px;
+  text-align: end;
+  color:red;
+}
+.star:hover{
+  font-size:65px;
+
+}
+.card-container:hover {
+  transform: scale(1.05);
+}

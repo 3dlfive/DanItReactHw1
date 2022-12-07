@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import './button.styles.scss'
-// import Modal from '../Modal/modal.component'
+import Modal from '../Modal/modal.component'
 
 class Button extends Component {
 
@@ -11,4 +11,9 @@ class Button extends Component {
   }
 }
 
+Button.defaultProps = {
+  text: "Додати",
+
+
+}
 export default Button;

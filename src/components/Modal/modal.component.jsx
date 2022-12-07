@@ -32,5 +32,10 @@ class Modal extends Component {
 		)
 	}
 }
+Modal.defaultProps = {
+	header:"Додати в корзину? ",
+  text: "назва фільму",
+
+}
 
 export default Modal;

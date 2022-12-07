@@ -1,7 +1,7 @@
 
 .button-15 {
-  margin: 50px;
   border: 1px solid #0077CC;
+  margin-bottom: 5px;
   border-radius: 4px;
   box-sizing: border-box;
   color: black;
@@ -22,6 +22,7 @@
   -webkit-user-select: none;
   touch-action: manipulation;
   white-space: nowrap;
+  min-width: 150px;
 }
 
 .button-15:disabled {

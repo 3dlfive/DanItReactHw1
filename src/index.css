@@ -5,9 +5,30 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: linear-gradient(
+    to left,
+    rgba(7, 27, 82, 1) 0%,
+    rgba(0, 128, 128, 1) 100%
+  );
 }
-
+.main-page{
+	display: flex;
+  flex-direction: column;
+	justify-content: space-around;
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+.counter-Wrapper{
+  font-family: 'Bigelow Rules', cursive;
+  font-size: 36px;
+  color: #1abc9c;
+  text-align: center;
+}
+h1{
+  font-family: 'Bigelow Rules', cursive;
+  font-size: 72px;
+  color: #1abc9c;
+  text-align: center;
 }
