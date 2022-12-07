@@ -19,14 +19,13 @@ class App extends Component {
     favList:[]
   }
   handleClickWindow = () =>{
+    this.setState((prevstate)=>
+    {return {
+      ...prevstate,
+      isModal: !prevstate.isModal,
+    }})
+  }
 
-
-
-  this.setState((prevstate)=>
-  {return {
-    ...prevstate,
-    isModal: !prevstate.isModal,
-  }})}
   handlerCurrentCARD = (currentCard) => {
 		this.setState((prevState) => {
 			return {
@@ -37,7 +36,6 @@ class App extends Component {
 	}
 
   handlerToBucket = (id) =>{
-
     this.setState((prevState) => {
 			return {
 				...prevState,
@@ -45,7 +43,6 @@ class App extends Component {
 			}
 		},()=>{
       localStorage.cardinBucket=this.state.cardinBucket;
-
     })
 
   }
@@ -56,12 +53,7 @@ class App extends Component {
   				...prevState,
   				favList: [...this.state.favList,id.aritclId]
   			}
-  		},()=>{
-        localStorage.FavList=this.state.favList;
-
-      })
-
-
+  		},()=>{localStorage.FavList=this.state.favList;})
     }
     else {
       this.setState((prevState) => {
@@ -69,20 +61,13 @@ class App extends Component {
           ...prevState,
           favList: this.state.favList.filter(el =>el!==id.aritclId)
         }
-      },()=>{
-        localStorage.FavList=this.state.favList;
-
-      })
-
+      },()=>{localStorage.FavList=this.state.favList;})
     }
-
-
   }
 
   componentDidMount(){
     if((localStorage.FavList)!== undefined && (localStorage.FavList).length>0)
     {
-
       this.setState(prevState=>{
         return {
           ...prevState,
@@ -106,16 +91,12 @@ class App extends Component {
     })
     .then(response=>response.json())
     .then(myDB=>{
-
       this.setState(prevState=>{return {
         ...prevState,
         shopData:myDB
       }})
     })
   }
-
-
-
 
 
   render(){
@@ -138,6 +119,7 @@ class App extends Component {
                   closeButton={this.handleClickWindow}/>}
 
         </div>
+
         <CardList>
         {shopData.map((el) => <Card
           addToFav={()=>{
@@ -169,7 +151,3 @@ App.propTypes = {
   favList:PropTypes.array
 };
 export default App;
-
-// 1. Підключення локал сторадж в стейт
-// 2. Отримати Ід, + функція зірочку
-// 3.
