@@ -143,11 +143,18 @@ class App extends Component {
     )
   }
 }
+App.defaultProps = {
+  shopData:[],
+  isModal:false,
+  currentCard:{},
+  cardinBucket:[],
+  favList:[]
+}
 App.propTypes = {
-  shopData:PropTypes.array.isRequired,
-  isModal:PropTypes.bool.isRequired,
-  currentCard:PropTypes.object.isRequired,
-  cardinBucket:PropTypes.array.isRequired,
-  favList:PropTypes.array.isRequired
+  shopData:PropTypes.array,
+  isModal:PropTypes.bool,
+  currentCard:PropTypes.object,
+  cardinBucket:PropTypes.array,
+  favList:PropTypes.array
 };
 export default App;

@@ -29,12 +29,18 @@ class Card extends Component {
   }
 
 }
+Card.defaultProps = {
+  name:"PropTypes.string.isRequired",
+  url:"PropTypes.string.isRequired",
+  price:"PropTypes.string.isRequired",
+  color:"PropTypes.string.isRequired",
 
+}
 Card.propTypes = {
-  name:PropTypes.string.isRequired,
-  url:PropTypes.string.isRequired,
-  price:PropTypes.string.isRequired,
-  color:PropTypes.string.isRequired,
+  name:PropTypes.string,
+  url:PropTypes.string,
+  price:PropTypes.string,
+  color:PropTypes.string,
   buttons:PropTypes.node.isRequired,
   favComponent:PropTypes.node.isRequired
 };
