@@ -1,16 +1,10 @@
 // eslint-disable-next-line
-import React, { Component } from 'react';
+import React from 'react';
 import './card-list.styles.scss';
-
-class CardList extends Component{
-
-  render(){
-
-    return (< div className = 'card-list'>
-      {this.props.children}
-           < /div>)
-
-  }
+//
+const CardList = ({children})=>{
+  return (< div className = 'card-list'>
+       {children}< /div>)
 }
 
 export default CardList;

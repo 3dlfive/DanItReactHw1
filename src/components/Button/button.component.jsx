@@ -1,14 +1,10 @@
-import React, {Component} from 'react'
 import './button.styles.scss'
 import { PropTypes } from 'prop-types';
 
-class Button extends Component {
 
-  render(){
-    const {text,onClick} = this.props;
+const Button = ({text,onClick}) =>{
     return (<button type="button"  onClick={onClick}  className="button-15" >{text}</button>)
 
-  }
 }
 
 Button.defaultProps = {

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import{ useState, useEffect } from 'react';
 import { PropTypes } from 'prop-types';
 
 import Button from './components/Button/button.component'
@@ -10,77 +10,20 @@ import { ReactComponent as BacketSVG }from './SVG/backet.svg'
 import { ReactComponent as SunSVG }from './SVG/sun.svg'
 
 
-class App extends Component {
-  state = {
-    shopData:[],
-    isModal:false,
-    currentCard:{},
-    cardinBucket:[],
-    favList:[]
-  }
-  handleClickWindow = () =>{
-    this.setState((prevstate)=>
-    {return {
-      ...prevstate,
-      isModal: !prevstate.isModal,
-    }})
-  }
+const App = () =>{
+  const [shopData,setshopData] = useState([])
+  const [isModal,setisModal] = useState(false)
+  const [currentCard,setcurrentCard] = useState({})
+  const [cardinBucket,setcardinBucket] = useState([])
+  const [favList,setfavList] = useState([])
 
-  handlerCurrentCARD = (currentCard) => {
-		this.setState((prevState) => {
-			return {
-				...prevState,
-				currentCard: {...currentCard}
-			}
-		})
-	}
-
-  handlerToBucket = (id) =>{
-    this.setState((prevState) => {
-			return {
-				...prevState,
-				cardinBucket: [...this.state.cardinBucket,id]
-			}
-		},()=>{
-      localStorage.cardinBucket=this.state.cardinBucket;
-    })
-
-  }
-  handlerToFav = (id) =>{
-    if (!this.state.favList.includes(id.aritclId)) {
-      this.setState((prevState) => {
-  			return {
-  				...prevState,
-  				favList: [...this.state.favList,id.aritclId]
-  			}
-  		},()=>{localStorage.FavList=this.state.favList;})
-    }
-    else {
-      this.setState((prevState) => {
-        return {
-          ...prevState,
-          favList: this.state.favList.filter(el =>el!==id.aritclId)
-        }
-      },()=>{localStorage.FavList=this.state.favList;})
-    }
-  }
-
-  componentDidMount(){
-    if((localStorage.FavList)!== undefined && (localStorage.FavList).length>0)
-    {
-      this.setState(prevState=>{
-        return {
-          ...prevState,
-          favList:localStorage.FavList.split(",")
-      }})
+  useEffect(()=>{
+    if((localStorage.FavList)!== undefined && (localStorage.FavList).length>0){
+      setfavList(localStorage.FavList.split(","))
     }
 
-    if((localStorage.cardinBucket)!== undefined){
-      this.setState(prevState=>{
-        return {
-          ...prevState,
-          cardinBucket:localStorage.cardinBucket.split(",")
-      }})
+    if((localStorage.СardinBucket)!== undefined && (localStorage.FavList).length>0){
+      setcardinBucket(localStorage.СardinBucket.split(","))
     }
 
     fetch('./mydata.json',{
@@ -90,59 +33,75 @@ class App extends Component {
        }
     })
     .then(response=>response.json())
-    .then(myDB=>{
-      this.setState(prevState=>{return {
-        ...prevState,
-        shopData:myDB
-      }})
-    })
+    .then(myDB=>{setshopData(myDB)})
+
+},[])
+  useEffect(()=>{
+      localStorage.FavList=favList;
+  },[favList])
+  useEffect(()=>{
+      localStorage.СardinBucket=cardinBucket;
+  },[cardinBucket])
+  const handleClickWindow = () =>{
+    setisModal(!isModal)
+  }
+  const handlerCurrentCARD = (currentCard) => {
+    setcurrentCard({...currentCard})
+  }
+  const handlerToBucket = (id) =>{
+      setcardinBucket([...cardinBucket,id])
+  }
+  const handlerToFav = (id) =>{
+    if (!favList.includes(id.aritclId)) {
+      setfavList([...favList,id.aritclId])
+    }
+    else {
+      setfavList(favList.filter(el=>el!==id.aritclId))
+    }
   }
 
+  return (
 
-  render(){
-    const {shopData,isModal,currentCard,cardinBucket,favList}= this.state;
+    <div className="main-page">
+      <h1>NFT card marketplace</h1>
+      <div className="counter-Wrapper">
+        <div>{<BacketSVG/>} = {cardinBucket.length}</div>
+        <div>{<SunSVG/>} = {favList.length}</div>
 
-    return (
-      <div className="main-page">
-        <h1>NFT card marketplace</h1>
-        <div className="counter-Wrapper">
-          <div>{<BacketSVG/>} = {cardinBucket.length}</div>
-          <div>{<SunSVG/>} = {favList.length}</div>
-
-          {isModal && <Modal header="Додати в корзину"
-                  action={<><button className="btn" type="button" onClick={()=>{
-                    this.handlerToBucket(currentCard.aritclId);
-                    this.handleClickWindow();
-                  }}>OK</button>
-                  <button className="btn" type="button" onClick={this.handleClickWindow}>Cancel</button></>}
-                  text={`Імя картки ${currentCard.name}`}
-                  closeButton={this.handleClickWindow}/>}
-
-        </div>
-
-        <CardList>
-        {shopData.map((el) => <Card
-          addToFav={()=>{
-            this.handlerToFav(el)
-          }}
-          favComponent={favList.includes(el.aritclId) ? <SunSVG className="star-yellow" onClick={()=>{
-            this.handlerToFav(el)
-          }}/> : <SunSVG className="star" onClick={()=>{
-            this.handlerToFav(el)
-          }}/>}
-          openModal={this.handleClickWindow}
-          key={el.aritclId}
-          itemData={el}
-          buttons={<><Button onClick={()=>{
-          this.handlerCurrentCARD(el);
-          this.handleClickWindow()
-        }}/></>} />)}
-        </CardList>
+        {isModal && <Modal header="Додати в кошик"
+                action={<><button className="btn" type="button" onClick={()=>{
+                  handlerToBucket(currentCard.aritclId);
+                  handleClickWindow();
+                }}>OK</button>
+                <button className="btn" type="button" onClick={handleClickWindow}>Cancel</button></>}
+                text={`Імя картки ${currentCard.name}`}
+                closeButton={handleClickWindow}/>}
 
       </div>
-    )
-  }
+
+      <CardList>
+      {shopData.map((el) => <Card
+        addToFav={()=>{
+          handlerToFav(el)
+        }}
+        favComponent={favList.includes(el.aritclId) ? <SunSVG className="star-yellow" onClick={()=>{
+          handlerToFav(el)
+        }}/> : <SunSVG className="star" onClick={()=>{
+          handlerToFav(el)
+        }}/>}
+        openModal={handleClickWindow}
+        key={el.aritclId}
+        itemData={el}
+        buttons={<><Button onClick={()=>{
+        handlerCurrentCARD(el);
+        handleClickWindow()
+      }}/></>} />)}
+      </CardList>
+
+    </div>
+  )
 }
+
 App.defaultProps = {
   shopData:[],
   isModal:false,
