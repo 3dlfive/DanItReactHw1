@@ -1,3 +1,5 @@
+import React from 'react'
+
 import './button.styles.scss'
 import { PropTypes } from 'prop-types';
 

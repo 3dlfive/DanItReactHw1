@@ -1,10 +1,13 @@
+import React from 'react'
+import { Route,Routes} from "react-router-dom"
 import{ useState, useEffect } from 'react';
 import { PropTypes } from 'prop-types';
 
-import Button from './components/Button/button.component'
+import Header from './components/Header/header.component'
+import HomePage from "./pages/home-page/home-page.component"
+import FavoritePage from "./pages/Fav/fav.component"
 import Modal from './components/Modal/modal.component'
-import CardList from './components/CardList/card-list.component.jsx'
-import Card from './components/Card/card.component.jsx'
+import Bucket from './pages/Bucket/bucket.component.jsx'
 
 import { ReactComponent as BacketSVG }from './SVG/backet.svg'
 import { ReactComponent as SunSVG }from './SVG/sun.svg'
@@ -62,8 +65,11 @@ const App = () =>{
 
   return (
 
-    <div className="main-page">
+    <div className="main-page"> 
+    <Header />
       <h1>NFT card marketplace</h1>
+      
+     
       <div className="counter-Wrapper">
         <div>{<BacketSVG/>} = {cardinBucket.length}</div>
         <div>{<SunSVG/>} = {favList.length}</div>
@@ -76,29 +82,24 @@ const App = () =>{
                 <button className="btn" type="button" onClick={handleClickWindow}>Cancel</button></>}
                 text={`Імя картки ${currentCard.name}`}
                 closeButton={handleClickWindow}/>}
-
+       </div>
+       <Routes>
+        <Route path="/bucket" element={<Bucket/>}/>
+        <Route path="/favorite" element={<FavoritePage
+          handlerToFav={handlerToFav}
+          handleClickWindow={handleClickWindow}
+          shopData={shopData}
+          favList={favList}
+          />}/>
+        <Route path="/" element={ <HomePage handlerToFav={handlerToFav} 
+        handleClickWindow={handleClickWindow} 
+        handlerCurrentCARD={handlerCurrentCARD}
+        shopData={shopData} 
+        favList={favList}
+        />}/>
+      </Routes>
       </div>
 
-      <CardList>
-      {shopData.map((el) => <Card
-        addToFav={()=>{
-          handlerToFav(el)
-        }}
-        favComponent={favList.includes(el.aritclId) ? <SunSVG className="star-yellow" onClick={()=>{
-          handlerToFav(el)
-        }}/> : <SunSVG className="star" onClick={()=>{
-          handlerToFav(el)
-        }}/>}
-        openModal={handleClickWindow}
-        key={el.aritclId}
-        itemData={el}
-        buttons={<><Button onClick={()=>{
-        handlerCurrentCARD(el);
-        handleClickWindow()
-      }}/></>} />)}
-      </CardList>
-
-    </div>
   )
 }
 

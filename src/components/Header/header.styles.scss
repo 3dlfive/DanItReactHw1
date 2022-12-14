@@ -1,0 +1,29 @@
+.header {
+    height: 70px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 25px;
+  
+    .logo-container {
+      height: 100%;
+      width: 70px;
+      padding: 25px;
+    }
+  
+    .options {
+      width: 50%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+        margin-right: 25px;
+      .option {
+        margin-left: 10px;
+        padding: 10px 15px;
+        cursor: pointer;
+        background-color: #01797D;
+        color: #71ABB2;
+      }
+    }
+  }
