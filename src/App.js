@@ -43,7 +43,7 @@ const App = () =>{
       localStorage.FavList=favList;
   },[favList])
   useEffect(()=>{
-      localStorage.СardinBucket=cardinBucket;
+      localStorage.cardinBucket=cardinBucket;
   },[cardinBucket])
   const handleClickWindow = () =>{
     setisModal(!isModal)
@@ -53,6 +53,18 @@ const App = () =>{
   }
   const handlerToBucket = (id) =>{
       setcardinBucket([...cardinBucket,id])
+  }
+  const removeFromBucket = ({aritclId})=>{
+    const index = cardinBucket.indexOf(aritclId)
+   
+    
+    if (index > -1) {
+      let sVariable = cardinBucket.splice(index, 1);
+      console.log(sVariable);
+
+      setcardinBucket(sVariable)
+      console.log(cardinBucket);
+    }
   }
   const handlerToFav = (id) =>{
     if (!favList.includes(id.aritclId)) {
@@ -75,16 +87,24 @@ const App = () =>{
         <div>{<SunSVG/>} = {favList.length}</div>
 
         {isModal && <Modal header="Додати в кошик"
-                action={<><button className="btn" type="button" onClick={()=>{
+                action={<><button className="button-15" type="button" onClick={()=>{
                   handlerToBucket(currentCard.aritclId);
                   handleClickWindow();
                 }}>OK</button>
-                <button className="btn" type="button" onClick={handleClickWindow}>Cancel</button></>}
+                <button className="button-15" type="button" onClick={handleClickWindow}>Cancel</button></>}
                 text={`Імя картки ${currentCard.name}`}
                 closeButton={handleClickWindow}/>}
        </div>
        <Routes>
-        <Route path="/bucket" element={<Bucket/>}/>
+        <Route path="/bucket" element={<Bucket 
+          removeFromBucket={removeFromBucket}
+          handlerToFav={handlerToFav}
+          handleClickWindow={handleClickWindow}
+          shopData={shopData}
+          cardinBucket={cardinBucket}
+          favList={favList}
+          handlerCurrentCARD={handlerCurrentCARD}
+          />}/>
         <Route path="/favorite" element={<FavoritePage
           handlerToFav={handlerToFav}
           handleClickWindow={handleClickWindow}
