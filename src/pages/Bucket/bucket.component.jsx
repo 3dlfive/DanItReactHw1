@@ -5,16 +5,13 @@ import Card from '../../components/Card/card.component'
 import { ReactComponent as SunSVG }from '../../SVG/sun.svg'
 import Button from '../../components/Button/button.component'
 
-const Bucket = ({removeFromBucket,handlerToFav,handleClickWindow,shopData,cardinBucket,favList,handlerCurrentCARD}) =>{
- 
-  const filteredArray =  cardinBucket.map(el=>{
-    const newEl = shopData.find(item=>item.aritclId===el);
-    return newEl
-  }
-    )
-    
+const Bucket = ({removeFromBucket,handlerToFav,handleClickWindow,shopData,cardinBucket,favList,handlerCurrentCARD,handleClickWindowBucketModal}) =>{
+
+  const filteredArray = shopData.filter((card)=>cardinBucket.includes(card.aritclId))
+
+
   return (
-  
+
     <>
         <CardList>
        {filteredArray.map((item,index)=>{
@@ -33,10 +30,9 @@ const Bucket = ({removeFromBucket,handlerToFav,handleClickWindow,shopData,cardin
           openModal={handleClickWindow}
           key={index}
           itemData={item}
-          buttons={<><Button text={"Видалити"} onClick={()=>{
+          buttons={<><Button text={"Видалити"}  onClick={()=>{
             handlerCurrentCARD(item);
-            handleClickWindow()
-            removeFromBucket(item)
+            handleClickWindowBucketModal()
             }}/></>}
            />)
        })}
@@ -45,5 +41,3 @@ const Bucket = ({removeFromBucket,handlerToFav,handleClickWindow,shopData,cardin
   )
 }
 export default Bucket
-
-

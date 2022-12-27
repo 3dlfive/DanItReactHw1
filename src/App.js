@@ -8,7 +8,7 @@ import HomePage from "./pages/home-page/home-page.component"
 import FavoritePage from "./pages/Fav/fav.component"
 import Modal from './components/Modal/modal.component'
 import Bucket from './pages/Bucket/bucket.component.jsx'
-
+import Button from './components/Button/button.component'
 import { ReactComponent as BacketSVG }from './SVG/backet.svg'
 import { ReactComponent as SunSVG }from './SVG/sun.svg'
 
@@ -16,8 +16,10 @@ import { ReactComponent as SunSVG }from './SVG/sun.svg'
 const App = () =>{
   const [shopData,setshopData] = useState([])
   const [isModal,setisModal] = useState(false)
+  const [isModalBucket,setisModalBucket] = useState(false)
+
   const [currentCard,setcurrentCard] = useState({})
-  const [cardinBucket,setcardinBucket] = useState([])
+  const [cardinBucket,setcardinBucket] = useState(localStorage.getItem("cardinBucket") ? JSON.parse(localStorage.getItem("cardinBucket")) : [])
   const [favList,setfavList] = useState([])
 
   useEffect(()=>{
@@ -43,10 +45,13 @@ const App = () =>{
       localStorage.FavList=favList;
   },[favList])
   useEffect(()=>{
-      localStorage.cardinBucket=cardinBucket;
+      localStorage.setItem("cardinBucket",JSON.stringify(cardinBucket));
   },[cardinBucket])
   const handleClickWindow = () =>{
     setisModal(!isModal)
+  }
+  const handleClickWindowBucketModal = () =>{
+    setisModalBucket(!isModalBucket)
   }
   const handlerCurrentCARD = (currentCard) => {
     setcurrentCard({...currentCard})
@@ -55,15 +60,8 @@ const App = () =>{
       setcardinBucket([...cardinBucket,id])
   }
   const removeFromBucket = ({aritclId})=>{
-    const index = cardinBucket.indexOf(aritclId)
-   
-    
-    if (index > -1) {
-      let sVariable = cardinBucket.splice(index, 1);
-      console.log(sVariable);
-
-      setcardinBucket(sVariable)
-      console.log(cardinBucket);
+    if (cardinBucket.includes(aritclId)) {
+      setcardinBucket(cardinBucket.filter(el=>el!==aritclId))
     }
   }
   const handlerToFav = (id) =>{
@@ -77,11 +75,11 @@ const App = () =>{
 
   return (
 
-    <div className="main-page"> 
+    <div className="main-page">
     <Header />
       <h1>NFT card marketplace</h1>
-      
-     
+
+
       <div className="counter-Wrapper">
         <div>{<BacketSVG/>} = {cardinBucket.length}</div>
         <div>{<SunSVG/>} = {favList.length}</div>
@@ -94,12 +92,25 @@ const App = () =>{
                 <button className="button-15" type="button" onClick={handleClickWindow}>Cancel</button></>}
                 text={`Імя картки ${currentCard.name}`}
                 closeButton={handleClickWindow}/>}
+        {isModalBucket && <Modal header="Видалити з кошика"
+                action={<>
+                <Button text="Підтвердити" onClick={()=>{
+                  removeFromBucket(currentCard);
+                  handleClickWindowBucketModal();
+                }} />
+                <Button text="Відміна" onClick={()=>{  handleClickWindowBucketModal();
+                }} />
+                </>
+                }
+                text={`Імя картки ${currentCard.name}`}
+                closeButton={handleClickWindow}/>}
        </div>
        <Routes>
-        <Route path="/bucket" element={<Bucket 
+        <Route path="/bucket" element={<Bucket
           removeFromBucket={removeFromBucket}
           handlerToFav={handlerToFav}
           handleClickWindow={handleClickWindow}
+          handleClickWindowBucketModal={handleClickWindowBucketModal}
           shopData={shopData}
           cardinBucket={cardinBucket}
           favList={favList}
@@ -111,10 +122,10 @@ const App = () =>{
           shopData={shopData}
           favList={favList}
           />}/>
-        <Route path="/" element={ <HomePage handlerToFav={handlerToFav} 
-        handleClickWindow={handleClickWindow} 
+        <Route path="/" element={ <HomePage handlerToFav={handlerToFav}
+        handleClickWindow={handleClickWindow}
         handlerCurrentCARD={handlerCurrentCARD}
-        shopData={shopData} 
+        shopData={shopData}
         favList={favList}
         />}/>
       </Routes>
