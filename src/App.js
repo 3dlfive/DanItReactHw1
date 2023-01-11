@@ -2,6 +2,7 @@ import React from 'react'
 import { Route,Routes} from "react-router-dom"
 import{ useState, useEffect } from 'react';
 import { PropTypes } from 'prop-types';
+import { useDispatch } from 'react-redux';
 
 import Header from './components/Header/header.component'
 import HomePage from "./pages/home-page/home-page.component"
@@ -11,9 +12,11 @@ import Bucket from './pages/Bucket/bucket.component.jsx'
 import Button from './components/Button/button.component'
 import { ReactComponent as BacketSVG }from './SVG/backet.svg'
 import { ReactComponent as SunSVG }from './SVG/sun.svg'
-
+import { setCurrentModal } from './store/modal/modal.action';
 
 const App = () =>{
+  const dispatch = useDispatch();
+
   const [shopData,setshopData] = useState([])
   const [isModal,setisModal] = useState(false)
   const [isModalBucket,setisModalBucket] = useState(false)
@@ -48,7 +51,8 @@ const App = () =>{
       localStorage.setItem("cardinBucket",JSON.stringify(cardinBucket));
   },[cardinBucket])
   const handleClickWindow = () =>{
-    setisModal(!isModal)
+    dispatch(setCurrentModal())
+    // setisModal(!isModal)
   }
   const handleClickWindowBucketModal = () =>{
     setisModalBucket(!isModalBucket)
