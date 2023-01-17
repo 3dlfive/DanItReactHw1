@@ -14,7 +14,7 @@ import { ReactComponent as BacketSVG }from './SVG/backet.svg'
 import { ReactComponent as SunSVG }from './SVG/sun.svg'
 
 import { setCurrentModal,setCurrentModal2 } from './store/modal/modal.action';
-import { setShopData,removeFromBucket,setcardinBucket } from './store/shop/shop.action';
+import { removeFromBucket,setcardinBucket,fetchShopDAtaAsync } from './store/shop/shop.action';
 
 const App = () =>{
   
@@ -31,16 +31,7 @@ const App = () =>{
 
 
   useEffect(()=>{
-
-    fetch('./mydata.json',{
-      headers : {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-       }
-    })
-    .then(response=>response.json())
-    .then(myDB=>{ dispatch(setShopData(myDB))})
-
+    dispatch(fetchShopDAtaAsync())
 },[])
 
   useEffect(()=>{
