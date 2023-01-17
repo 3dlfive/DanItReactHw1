@@ -5,7 +5,18 @@ import { ReactComponent as SunSVG }from '../../SVG/sun.svg'
 
 import './fav.styles.scss'
 
-const FavoritePage = ({handlerToFav,handleClickWindow,shopData,favList}) =>{
+import { useSelector, useDispatch } from 'react-redux'
+import { setfavList } from '../../store/shop/shop.action'
+
+const FavoritePage = () =>{
+    const dispatch = useDispatch();
+    const {shopData,favList} = useSelector(((store)=>{
+        return {
+          shopData:store.shop.shopData,
+          favList:store.shop.favList,
+        }
+      }))
+
     return (
         
             <>
@@ -13,15 +24,9 @@ const FavoritePage = ({handlerToFav,handleClickWindow,shopData,favList}) =>{
                 <CardList>
                 
                 {shopData.map((el) => favList.includes(el.aritclId) && <Card
-                    addToFav={()=>{
-                        handlerToFav(el)
-                    }}
-                    favComponent={favList.includes(el.aritclId) ? <SunSVG className="star-yellow" onClick={()=>{
-                        handlerToFav(el)
-                    }}/> : <SunSVG className="star" onClick={()=>{
-                        handlerToFav(el)
-                    }}/>}
-                    openModal={handleClickWindow}
+                    favComponent={favList.includes(el.aritclId) && <SunSVG className="star-yellow" onClick={()=>{
+                        dispatch(setfavList(el.aritclId))
+                    }}/> }
                     key={el.aritclId}
                     itemData={el}
                      />)}

@@ -5,8 +5,22 @@ import Card from '../../components/Card/card.component'
 import { ReactComponent as SunSVG }from '../../SVG/sun.svg'
 import Button from '../../components/Button/button.component'
 
-const Bucket = ({removeFromBucket,handlerToFav,handleClickWindow,shopData,cardinBucket,favList,handlerCurrentCARD,handleClickWindowBucketModal}) =>{
+import { useSelector, useDispatch } from 'react-redux'
 
+import { setCurrentModal2 } from '../../store/modal/modal.action';
+import { setcurrentCard,setfavList } from '../../store/shop/shop.action'
+
+const Bucket = () =>{
+  const dispatch = useDispatch();
+  const {shopData,favList,cardinBucket} = useSelector(((store)=>{
+      return {
+        shopData:store.shop.shopData,
+        favList:store.shop.favList,
+        cardinBucket:store.shop.cardinBucket
+      }
+    }))
+ 
+  
   const filteredArray = shopData.filter((card)=>cardinBucket.includes(card.aritclId))
 
 
@@ -16,23 +30,19 @@ const Bucket = ({removeFromBucket,handlerToFav,handleClickWindow,shopData,cardin
         <CardList>
        {filteredArray.map((item,index)=>{
         return (<Card
-          removeFromBucket={()=>{
-            removeFromBucket(item)
-          }}
-          addToFav={()=>{
-              handlerToFav(item)
-          }}
+          
+         
           favComponent={favList.includes(item.aritclId) ? <SunSVG className="star-yellow" onClick={()=>{
-              handlerToFav(item)
+              dispatch(setfavList(item.aritclId))
           }}/> : <SunSVG className="star" onClick={()=>{
-              handlerToFav(item)
+              dispatch(setfavList(item.aritclId))
           }}/>}
-          openModal={handleClickWindow}
+         
           key={index}
           itemData={item}
           buttons={<><Button text={"Видалити"}  onClick={()=>{
-            handlerCurrentCARD(item);
-            handleClickWindowBucketModal()
+            dispatch(setcurrentCard(item))
+            dispatch(setCurrentModal2())
             }}/></>}
            />)
        })}

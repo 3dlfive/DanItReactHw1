@@ -1,8 +1,8 @@
 import React from 'react'
 import { Route,Routes} from "react-router-dom"
-import{ useState, useEffect } from 'react';
+import{  useEffect } from 'react';
 import { PropTypes } from 'prop-types';
-import { useDispatch } from 'react-redux';
+import { useDispatch,useSelector } from 'react-redux';
 
 import Header from './components/Header/header.component'
 import HomePage from "./pages/home-page/home-page.component"
@@ -12,27 +12,25 @@ import Bucket from './pages/Bucket/bucket.component.jsx'
 import Button from './components/Button/button.component'
 import { ReactComponent as BacketSVG }from './SVG/backet.svg'
 import { ReactComponent as SunSVG }from './SVG/sun.svg'
-import { setCurrentModal } from './store/modal/modal.action';
+
+import { setCurrentModal,setCurrentModal2 } from './store/modal/modal.action';
+import { setShopData,removeFromBucket,setcardinBucket } from './store/shop/shop.action';
 
 const App = () =>{
+  
   const dispatch = useDispatch();
+  const {isModal,isModal2,currentCard,favList,cardinBucket} = useSelector((store)=>{
+    return {isModal:store.modal.isModal,
+      isModal2:store.modal.isModal2,
+      currentCard:store.shop.currentCard,
+      favList:store.shop.favList,
+      cardinBucket:store.shop.cardinBucket
+    }
+  })
+ 
 
-  const [shopData,setshopData] = useState([])
-  const [isModal,setisModal] = useState(false)
-  const [isModalBucket,setisModalBucket] = useState(false)
-
-  const [currentCard,setcurrentCard] = useState({})
-  const [cardinBucket,setcardinBucket] = useState(localStorage.getItem("cardinBucket") ? JSON.parse(localStorage.getItem("cardinBucket")) : [])
-  const [favList,setfavList] = useState([])
 
   useEffect(()=>{
-    if((localStorage.FavList)!== undefined && (localStorage.FavList).length>0){
-      setfavList(localStorage.FavList.split(","))
-    }
-
-    if((localStorage.СardinBucket)!== undefined && (localStorage.FavList).length>0){
-      setcardinBucket(localStorage.СardinBucket.split(","))
-    }
 
     fetch('./mydata.json',{
       headers : {
@@ -41,42 +39,30 @@ const App = () =>{
        }
     })
     .then(response=>response.json())
-    .then(myDB=>{setshopData(myDB)})
+    .then(myDB=>{ dispatch(setShopData(myDB))})
 
 },[])
+
   useEffect(()=>{
-      localStorage.FavList=favList;
+      localStorage.setItem("favList",JSON.stringify(favList))
   },[favList])
   useEffect(()=>{
       localStorage.setItem("cardinBucket",JSON.stringify(cardinBucket));
   },[cardinBucket])
+
+  //OPEN CLOSE MODALS
   const handleClickWindow = () =>{
     dispatch(setCurrentModal())
-    // setisModal(!isModal)
+    
   }
   const handleClickWindowBucketModal = () =>{
-    setisModalBucket(!isModalBucket)
-  }
-  const handlerCurrentCARD = (currentCard) => {
-    setcurrentCard({...currentCard})
-  }
-  const handlerToBucket = (id) =>{
-      setcardinBucket([...cardinBucket,id])
-  }
-  const removeFromBucket = ({aritclId})=>{
-    if (cardinBucket.includes(aritclId)) {
-      setcardinBucket(cardinBucket.filter(el=>el!==aritclId))
-    }
-  }
-  const handlerToFav = (id) =>{
-    if (!favList.includes(id.aritclId)) {
-      setfavList([...favList,id.aritclId])
-    }
-    else {
-      setfavList(favList.filter(el=>el!==id.aritclId))
-    }
+    dispatch(setCurrentModal2())
   }
 
+ 
+
+
+ 
   return (
 
     <div className="main-page">
@@ -90,16 +76,16 @@ const App = () =>{
 
         {isModal && <Modal header="Додати в кошик"
                 action={<><button className="button-15" type="button" onClick={()=>{
-                  handlerToBucket(currentCard.aritclId);
+                  dispatch(setcardinBucket(currentCard.aritclId))
                   handleClickWindow();
                 }}>OK</button>
                 <button className="button-15" type="button" onClick={handleClickWindow}>Cancel</button></>}
                 text={`Імя картки ${currentCard.name}`}
                 closeButton={handleClickWindow}/>}
-        {isModalBucket && <Modal header="Видалити з кошика"
+        {isModal2 && <Modal header="Видалити з кошика"
                 action={<>
                 <Button text="Підтвердити" onClick={()=>{
-                  removeFromBucket(currentCard);
+                  dispatch(removeFromBucket(currentCard.aritclId))
                   handleClickWindowBucketModal();
                 }} />
                 <Button text="Відміна" onClick={()=>{  handleClickWindowBucketModal();
@@ -107,31 +93,12 @@ const App = () =>{
                 </>
                 }
                 text={`Імя картки ${currentCard.name}`}
-                closeButton={handleClickWindow}/>}
+                closeButton={handleClickWindowBucketModal}/>}
        </div>
        <Routes>
-        <Route path="/bucket" element={<Bucket
-          removeFromBucket={removeFromBucket}
-          handlerToFav={handlerToFav}
-          handleClickWindow={handleClickWindow}
-          handleClickWindowBucketModal={handleClickWindowBucketModal}
-          shopData={shopData}
-          cardinBucket={cardinBucket}
-          favList={favList}
-          handlerCurrentCARD={handlerCurrentCARD}
-          />}/>
-        <Route path="/favorite" element={<FavoritePage
-          handlerToFav={handlerToFav}
-          handleClickWindow={handleClickWindow}
-          shopData={shopData}
-          favList={favList}
-          />}/>
-        <Route path="/" element={ <HomePage handlerToFav={handlerToFav}
-        handleClickWindow={handleClickWindow}
-        handlerCurrentCARD={handlerCurrentCARD}
-        shopData={shopData}
-        favList={favList}
-        />}/>
+        <Route path="/bucket" element={<Bucket/>}/>
+        <Route path="/favorite" element={<FavoritePage/>}/>
+        <Route path="/" element={ <HomePage/>}/>
       </Routes>
       </div>
 

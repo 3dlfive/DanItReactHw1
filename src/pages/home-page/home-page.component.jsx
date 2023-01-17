@@ -9,27 +9,38 @@ import "./home-page.styles.scss"
 import { ReactComponent as SunSVG }from '../../SVG/sun.svg'
 
 
+import { useSelector, useDispatch } from 'react-redux'
+import { setCurrentModal } from '../../store/modal/modal.action'
+import { setcurrentCard, setfavList } from '../../store/shop/shop.action'
 
-const HomePage =({handlerToFav,handleClickWindow,handlerCurrentCARD,shopData,favList})=>{
+
+const HomePage =()=>{
+    const dispatch = useDispatch();
+    const {shopData,favList} = useSelector(((store)=>{
+        return {
+          shopData:store.shop.shopData,
+          favList:store.shop.favList}
+      }))
+      
 
     return (
         <>
             <CardList>
             {shopData.map((el) => <Card
             addToFav={()=>{
-                handlerToFav(el)
+                dispatch(setfavList(el.aritclId))
             }}
             favComponent={favList.includes(el.aritclId) ? <SunSVG className="star-yellow" onClick={()=>{
-                handlerToFav(el)
+                dispatch(setfavList(el.aritclId))
             }}/> : <SunSVG className="star" onClick={()=>{
-                handlerToFav(el)
+                dispatch(setfavList(el.aritclId))
+               
             }}/>}
-            openModal={handleClickWindow}
             key={el.aritclId}
             itemData={el}
             buttons={<><Button onClick={()=>{
-            handlerCurrentCARD(el);
-            handleClickWindow()
+                dispatch(setcurrentCard({...el}))
+                dispatch(setCurrentModal())
             }}/></>} />)}
             </CardList>
       </>
