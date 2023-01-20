@@ -13,6 +13,9 @@ export const fetchShopDAtaAsync = () => async(dispatch) =>{
         dispatch(setShopDataFaILED(error))
     }
 }
+
+export const submitOrder = (payload) =>createAction(SHOP_ACTIONS_TYPES.ORDER_SUBMIT,payload);
+
 export const setShopDataStart = () =>createAction(SHOP_ACTIONS_TYPES.FETCH_DATA_START);
 export const setShopDataSuccsess = (payload) =>createAction(SHOP_ACTIONS_TYPES.FETCH_DATA_SUCCESS,payload);
 export const setShopDataFaILED = (error) =>createAction(SHOP_ACTIONS_TYPES.FETCH_DATA_FAILED,error);

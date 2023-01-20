@@ -10,6 +10,9 @@ import { useSelector, useDispatch } from 'react-redux'
 import { setCurrentModal2 } from '../../store/modal/modal.action';
 import { setcurrentCard,setfavList } from '../../store/shop/shop.action'
 
+import { OrderForm } from '../../components/OrderForm/orderform.component';
+
+
 const Bucket = () =>{
   const dispatch = useDispatch();
   const {shopData,favList,cardinBucket} = useSelector(((store)=>{
@@ -27,6 +30,7 @@ const Bucket = () =>{
   return (
 
     <>
+    {filteredArray.length>0 ? <OrderForm/> :<h3>Bucket is empty</h3>}
         <CardList>
        {filteredArray.map((item,index)=>{
         return (<Card

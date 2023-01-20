@@ -7,12 +7,16 @@ const INITIAL_STATE = {
     currentCard:{},
     cardinBucket:localStorage.getItem("cardinBucket") ? JSON.parse(localStorage.getItem("cardinBucket")) : [],
     favList: localStorage.getItem("favList") ? JSON.parse(localStorage.getItem("favList")) : [],
+    orders:[]
 }
 export const shopReducer = (state=INITIAL_STATE,action = {})=>{
     
     const {type,payload} = action;
     
     switch (type) {
+        case SHOP_ACTIONS_TYPES.ORDER_SUBMIT:
+            return { ...state, orders:[...state.orders,payload],cardinBucket:[]};
+       
         case SHOP_ACTIONS_TYPES.FETCH_DATA_START:
             return { ...state, isLoading:true};
        
